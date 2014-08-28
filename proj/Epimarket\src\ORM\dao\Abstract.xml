@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<class name="ORM.model.Dvd" table="abstract" catalog="epimarket">
+	<id name="idabstract">
+		<column name="idabstract"/>
+	</id>
+	<property name="name">
+		<column name="name"/>
+	</property>
+    <property name="designation">
+    	<column name="designation"/>
+    </property>
+    <property name="price">
+    	<column name="price"/>
+    </property>
+    <property name="category" type="ORM.model.Category" designation="id">
+    	<column name="category" type="category"/>
+    </property>
+    <canAbs>
+    	<pos name="dvd" designation="abstract"/>
+    	<pos name="game" designation="abstract"/>
+    </canAbs>
+</class>
