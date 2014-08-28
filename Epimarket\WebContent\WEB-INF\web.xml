@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright 2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <!-- Extensions Filter -->
+    <filter>
+        <filter-name>MyFacesExtensionsFilter</filter-name>
+        <filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
+        <init-param>
+            <param-name>maxFileSize</param-name>
+            <param-value>20m</param-value>
+            <!--  <description>Set the size limit for uploaded files.
+                Format: 10 - 10 bytes
+                        10k - 10 KB
+                        10m - 10 MB
+                        1g - 1 GB
+            </description> -->
+        </init-param>
+    </filter>
+    <!-- extension mapping for adding <script/>, <link/>, and other resource tags to JSF-pages  -->
+    <filter-mapping>
+        <filter-name>MyFacesExtensionsFilter</filter-name>
+        <!-- servlet-name must match the name of your javax.faces.webapp.FacesServlet entry -->
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+    <!-- extension mapping for serving page-independent resources (javascript, stylesheets, images, etc.)  -->
+    <filter-mapping>
+        <filter-name>MyFacesExtensionsFilter</filter-name>
+        <url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
+    </filter-mapping>
+    <context-param>
+        <param-name>javax.faces.CONFIG_FILES</param-name>
+        <param-value>/WEB-INF/faces-config.xml</param-value>
+        <!-- <description> Comma separated list of URIs of (additional) faces config files. (e.g. /WEB-INF/my-config.xml) See JSF 1.0 PRD2, 10.3.2</description>-->
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+        <!-- <description>State saving method: "client" or "server" (= default). See JSF Specification 2.5.2</description> -->
+    </context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.ALLOW_JAVASCRIPT</param-name>
+        <param-value>true</param-value>
+        <!-- <description>
+            This parameter tells MyFaces if javascript code should be allowed in the
+            rendered HTML output.
+            If javascript is allowed, command_link anchors will have javascript code
+            that submits the corresponding form.
+            If javascript is not allowed, the state saving info and nested parameters
+            will be added as url parameters.
+            Default: "true"
+        </description> -->
+    </context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.PRETTY_HTML</param-name>
+        <param-value>true</param-value>
+        <!--  <description>
+            If true, rendered HTML code will be formatted, so that it is "human readable".
+            i.e. additional line separators and whitespace will be written, that do not
+            influence the HTML code.
+            Default: "true"
+        </description>-->
+    </context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.DETECT_JAVASCRIPT</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.AUTO_SCROLL</param-name>
+        <param-value>true</param-value>
+        <!-- <description>
+            If true, a javascript function will be rendered that is able to restore the
+            former vertical scroll on every request. Convenient feature if you have pages
+            with long lists and you do not want the browser page to always jump to the top
+            if you trigger a link or button action that stays on the same page.
+            Default: "false"
+        </description>-->
+    </context-param>
+    <!-- Listener, that does all the startup work (configuration, init). -->
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+    
+    <!-- Faces Servlet -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.faces</url-pattern>
+    </servlet-mapping>
+ 
+ 
+     <!-- Chart Chartlet -->
+    <servlet>
+        <servlet-name>Chartlet</servlet-name>
+        <servlet-class>net.sf.jsfcomp.chartcreator.Chartlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Chartlet</servlet-name>
+        <url-pattern>*.chart</url-pattern>
+    </servlet-mapping>
+
+ <!-- Welcome files -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+ 
+ <!-- Admin configuration -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+           <!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>admin</role-name>
+    </security-role>
+    
+    <error-page>
+         <error-code>100</error-code>
+         <location>/err/Errors.jsp?err=100</location>
+    </error-page>
+    <error-page>
+         <error-code>101</error-code>
+         <location>/err/Errors.jsp?err=101</location>
+    </error-page>
+    <error-page>
+         <error-code>200</error-code>
+         <location>/err/Errors.jsp?err=200</location>
+    </error-page>
+    <error-page>
+         <error-code>201</error-code>
+         <location>/err/Errors.jsp?err=201</location>
+    </error-page>
+    <error-page>
+         <error-code>202</error-code>
+         <location>/err/Errors.jsp?err=202</location>
+    </error-page>
+    <error-page>
+         <error-code>204</error-code>
+         <location>/err/Errors.jsp?err=204</location>
+    </error-page>
+    <error-page>
+         <error-code>206</error-code>
+         <location>/err/Errors.jsp?err=206</location>
+    </error-page>
+    <error-page>
+         <error-code>207</error-code>
+         <location>/err/Errors.jsp?err=207</location>
+    </error-page>
+    <error-page>
+         <error-code>300</error-code>
+         <location>/err/Errors.jsp?err=300</location>
+    </error-page>
+    <error-page>
+         <error-code>301</error-code>
+         <location>/err/Errors.jsp?err=301</location>
+    </error-page>
+    <error-page>
+         <error-code>302</error-code>
+         <location>/err/Errors.jsp?err=302</location>
+    </error-page>
+    <error-page>
+         <error-code>303</error-code>
+         <location>/err/Errors.jsp?err=303</location>
+    </error-page>
+    <error-page>
+         <error-code>305</error-code>
+         <location>/err/Errors.jsp?err=305</location>
+    </error-page>
+    <error-page>
+         <error-code>307</error-code>
+         <location>/err/Errors.jsp?err=307</location>
+    </error-page>
+    <error-page>
+         <error-code>400</error-code>
+         <location>/err/Errors.jsp?err=400</location>
+    </error-page>
+    <error-page>
+         <error-code>402</error-code>
+         <location>/err/Errors.jsp?err=402</location>
+    </error-page>
+    <error-page>
+         <error-code>403</error-code>
+         <location>/err/Errors.jsp?err=403</location>
+    </error-page>
+    <error-page>
+         <error-code>404</error-code>
+         <location>/err/Errors.jsp?err=404</location>
+    </error-page>
+    <error-page>
+         <error-code>405</error-code>
+         <location>/err/Errors.jsp?err=405</location>
+    </error-page>
+    <error-page>
+         <error-code>406</error-code>
+         <location>/err/Errors.jsp?err=406</location>
+    </error-page>
+    <error-page>
+         <error-code>408</error-code>
+         <location>/err/Errors.jsp?err=408</location>
+    </error-page>
+    <error-page>
+         <error-code>410</error-code>
+         <location>/err/Errors.jsp?err=410</location>
+    </error-page>
+    <error-page>
+         <error-code>413</error-code>
+         <location>/err/Errors.jsp?err=413</location>
+    </error-page>
+    <error-page>
+         <error-code>414</error-code>
+         <location>/err/Errors.jsp?err=414</location>
+    </error-page>
+    <error-page>
+         <error-code>416</error-code>
+         <location>/err/Errors.jsp?err=416</location>
+    </error-page>
+    <error-page>
+         <error-code>417</error-code>
+         <location>/err/Errors.jsp?err=417</location>
+    </error-page>
+    <error-page>
+         <error-code>418</error-code>
+         <location>/err/Errors.jsp?err=418</location>
+    </error-page>
+    <error-page>
+         <error-code>422</error-code>
+         <location>/err/Errors.jsp?err=422</location>
+    </error-page>
+    <error-page>
+         <error-code>423</error-code>
+         <location>/err/Errors.jsp?err=423</location>
+    </error-page>
+    <error-page>
+         <error-code>424</error-code>
+         <location>/err/Errors.jsp?err=424</location>
+    </error-page>
+    <error-page>
+         <error-code>425</error-code>
+         <location>/err/Errors.jsp?err=425</location>
+    </error-page>
+    <error-page>
+         <error-code>426</error-code>
+         <location>/err/Errors.jsp?err=426</location>
+    </error-page>
+    <error-page>
+         <error-code>429</error-code>
+         <location>/err/Errors.jsp?err=429</location>
+    </error-page>
+    <error-page>
+         <error-code>431</error-code>
+         <location>/err/Errors.jsp?err=431</location>
+    </error-page>
+    <error-page>
+         <error-code>450</error-code>
+         <location>/err/Errors.jsp?err=450</location>
+    </error-page>
+<!--    <error-page>
+         <error-code>500</error-code>
+         <location>/err/Errors.jsp?err=500</location>
+    </error-page>-->
+    <error-page>
+         <error-code>502</error-code>
+         <location>/err/Errors.jsp?err=502</location>
+    </error-page>
+    <error-page>
+         <error-code>503</error-code>
+         <location>/err/Errors.jsp?err=503</location>
+    </error-page>
+    <error-page>
+         <error-code>506</error-code>
+         <location>/err/Errors.jsp?err=506</location>
+    </error-page>
+    <error-page>
+         <error-code>507</error-code>
+         <location>/err/Errors.jsp?err=507</location>
+    </error-page>
+    <error-page>
+         <error-code>508</error-code>
+         <location>/err/Errors.jsp?err=508</location>
+    </error-page>
+    <error-page>
+         <error-code>509</error-code>
+         <location>/err/Errors.jsp?err=509</location>
+    </error-page>
+    <error-page>
+         <error-code>599</error-code>
+         <location>/err/Errors.jsp?err=599</location>
+    </error-page>
+
+</web-app>

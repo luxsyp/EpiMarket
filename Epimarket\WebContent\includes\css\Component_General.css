@@ -1,0 +1,101 @@
+/* ************************************************************************	*/
+/* General							 										*/
+/* ************************************************************************	*/
+/* Page								 										*/
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+/* Pas de bordures aux image */
+a img, img { border: none; }
+/* Mise a 0 des marges int/ext des paragraphes generiques					*/
+p { margin: 0px; padding: 0px; }
+/* Liens en texte classique					*/
+a:link, a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+a:hover, a:active {
+	text-decoration: underline;
+}
+
+a.button {
+	font-family: Gotham-Book, Verdana, Arial, sans-serif;
+	font-size: 14px;
+	width: 350px;
+	font-weight: bold;
+	display: block;
+	height: 30px;
+	padding-left: 10px;
+	line-height: 30px;
+	text-decoration: none;
+	padding-left-value: 5px;
+}
+a.button:link, a.button:visited {
+	color: fff;
+}
+a.button:hover, a.button:active {
+	text-decoration: none;
+	color: #fff;
+	background-color: #CCCCCC;
+}
+
+table{
+	font-size: 14px;
+}
+
+
+ul, li { margin: 0px; padding: 0px; list-style-type: none; }
+/* ************************************************************************	*/
+fieldset {
+	padding: 20px;
+        margin: 10px 0;
+	border: 1px solid #fff;
+}
+
+legend {
+    color: #fff;
+    font-size: 15px;
+    padding: 0px 10px;
+}
+/* ************************************************************************	*/
+/* style des paragraphes d'alerte et/ou d'erreur 										*/
+.warn {
+	font-weight: bold;
+	color: #ffbf43;
+	font-size: 12px;
+}
+.error {
+	font-weight: bold;
+	color: #CC0000;
+	font-size: 12px;
+}
+.fatal {
+	font-weight: bold;
+	color: #CC0000;
+	font-size: 12px;
+}
+
+.info {
+	margin: 10px 10px 10px 150px;
+	font-weight: bold;
+	color: #0066CC;
+	font-size: 12px;
+}
+/* ************************************************************************	*/
+/* Disposition des boutons			 										*/
+input.button {
+	height: 30px;
+	border: none;
+	font-family: Gotham-Book, Verdana, Arial, sans-serif;
+	background-color: #FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+	text-align: left;
+	margin-left: 10px;
+	line-height: 30px;
+}
+
+/* ************************************************************************	*/
