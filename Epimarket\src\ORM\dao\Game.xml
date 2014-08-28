@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<class name="ORM.model.Game" table="game" catalog="epimarket">
-	<id name="id">
-		<column name="idgame"/>
-	</id>
-	<abstract name="abstract">
-		<column name="abstract"/>
-	</abstract>
-</class>

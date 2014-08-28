@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<class name="ORM.model.Category" table="Category" catalog="epimarket">
-	<id name="id">
-		<column name="idcategory"/>
-	</id>
-	<property name="name">
-		<column name="name"/>
-	</property>
-</class>
